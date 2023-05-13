@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace WeCVRP;
+namespace WeCVRP.UI;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

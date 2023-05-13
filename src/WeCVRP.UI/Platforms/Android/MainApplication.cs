@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace WeCVRP;
+namespace WeCVRP.UI;
 
 [Application]
 public class MainApplication : MauiApplication

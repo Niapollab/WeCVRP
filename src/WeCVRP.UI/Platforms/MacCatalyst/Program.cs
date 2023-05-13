@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace WeCVRP;
+namespace WeCVRP.UI;
 
 public class Program
 {

@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace WeCVRP;
+namespace WeCVRP.UI;
 
 class Program : MauiApplication
 {
