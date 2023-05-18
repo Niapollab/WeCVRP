@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeCVRP.UI", "WeCVRP.UI/WeCVRP.UI.csproj", "{8416D58A-AD19-4494-AA03-B42F002C94BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeCVRP.UI", "WeCVRP.UI\WeCVRP.UI.csproj", "{8416D58A-AD19-4494-AA03-B42F002C94BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeCVRP.Core", "WeCVRP.Core\WeCVRP.Core.csproj", "{193D870A-E2E3-43ED-9D8F-BC36BE0B60EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeCVRP.Tests", "WeCVRP.Tests\WeCVRP.Tests.csproj", "{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +21,14 @@ Global
 		{8416D58A-AD19-4494-AA03-B42F002C94BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8416D58A-AD19-4494-AA03-B42F002C94BE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8416D58A-AD19-4494-AA03-B42F002C94BE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{193D870A-E2E3-43ED-9D8F-BC36BE0B60EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193D870A-E2E3-43ED-9D8F-BC36BE0B60EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193D870A-E2E3-43ED-9D8F-BC36BE0B60EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193D870A-E2E3-43ED-9D8F-BC36BE0B60EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
