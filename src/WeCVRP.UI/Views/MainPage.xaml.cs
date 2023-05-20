@@ -1,7 +1,6 @@
 ﻿using WeCVRP.UI.Extensions;
-using WeCVRP.UI.Views;
 
-namespace WeCVRP.UI;
+namespace WeCVRP.UI.Views;
 
 public partial class MainPage : ContentPage
 {

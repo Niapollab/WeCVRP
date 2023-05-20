@@ -1,4 +1,4 @@
-﻿namespace WeCVRP.UI;
+﻿namespace WeCVRP.UI.Views;
 
 public partial class App : Application
 {
