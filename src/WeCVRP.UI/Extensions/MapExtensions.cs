@@ -73,6 +73,8 @@ public static class MapExtensions
 #if __ANDROID__
         if (map.Handler is IMapHandler handler && handler.Map is not null)
             handler.Map.UiSettings.ZoomControlsEnabled = enabled;
+#else
+        map.IsZoomEnabled = enabled;
 #endif
     }
 
@@ -81,6 +83,8 @@ public static class MapExtensions
 #if __ANDROID__
         if (map.Handler is IMapHandler handler && handler.Map is not null)
             handler.Map.UiSettings.ZoomGesturesEnabled = enabled;
+#else
+        map.IsZoomEnabled = enabled;
 #endif
     }
 }

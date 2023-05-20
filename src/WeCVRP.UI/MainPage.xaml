@@ -7,7 +7,7 @@
     <Grid RowSpacing="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
-            <RowDefinition/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" ColumnSpacing="5">
             <Grid.ColumnDefinitions>
@@ -20,7 +20,7 @@
         <maps:Map Grid.Row="1" x:Name="map" IsShowingUser="False" IsTrafficEnabled="False" IsZoomEnabled="False" />
         <toolkit:Expander Grid.Row="1" HorizontalOptions="End" VerticalOptions="End" Margin="30" Direction="Up">
             <toolkit:Expander.Header>
-                <ImageButton BackgroundColor="{StaticResource Primary}" CornerRadius="28" HorizontalOptions="End" VerticalOptions="End" MinimumHeightRequest="55" MinimumWidthRequest="55">
+                <ImageButton BackgroundColor="{StaticResource Primary}" CornerRadius="28" HorizontalOptions="End" VerticalOptions="End" MinimumHeightRequest="55" MinimumWidthRequest="55" Clicked="OnPlusButtonClicked">
                     <ImageButton.Source>
                         <FontImageSource FontFamily="FASolid" Glyph="&#x2b;" />
                     </ImageButton.Source>

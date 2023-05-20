@@ -53,6 +53,7 @@
 		<PackageReference Include="CommunityToolkit.Maui" Version="5.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="7.0.86" />
+		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.0-alpha7" />
 	</ItemGroup>
 
 </Project>

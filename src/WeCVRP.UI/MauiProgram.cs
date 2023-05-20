@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
-using Microsoft.Maui.Maps.Handlers;
+using The49.Maui.BottomSheet;
 
 namespace WeCVRP.UI;
 
@@ -12,6 +12,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .UseMauiCommunityToolkit()
+            .UseBottomSheet()
             .UseMauiMaps()
             .ConfigureFonts(fonts =>
             {
