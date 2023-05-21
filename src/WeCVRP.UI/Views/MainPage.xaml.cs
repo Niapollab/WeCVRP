@@ -1,33 +1,24 @@
-﻿using WeCVRP.UI.Extensions;
+﻿using Mapsui.UI.Maui;
 
 namespace WeCVRP.UI.Views;
 
 public partial class MainPage : ContentPage
 {
     public MainPage()
-        => InitializeComponent();
-
-    protected async override void OnAppearing()
     {
-        await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-        await map.TryToMoveToUserLocationAsync(Constants.MapScale);
-
-        ForceEnableZoomGestures();
+        InitializeComponent();
+        map.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
     }
 
-    private async void OnPlaceSearchEntryCompleted(object sender, EventArgs e)
-        => await map.TryToMoveToLocationAsync(placeSearchEntry.Text, Constants.MapScale);
+    protected async override void OnAppearing()
+        => await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+    private void OnPlaceSearchEntryCompleted(object sender, EventArgs e)
+        => throw new NotImplementedException();
 
     private void OnPlusButtonClicked(object sender, EventArgs e)
         => new SettingsPage
         {
             BindingContext = settingsViewModel
         }.Show(Window);
-
-    private void ForceEnableZoomGestures()
-        => map.PropertyChanged += (s, e) =>
-        {
-            if (e.PropertyName == "VisibleRegion" && !map.GetZoomGesturesEnabled())
-                map.SetZoomGesturesEnabled(true);
-        };
 }

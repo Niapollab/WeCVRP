@@ -1,27 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:WeCVRP.UI.ViewModels"
+             xmlns:maps="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Class="WeCVRP.UI.Views.MainPage">
     <ContentPage.BindingContext>
-        <viewmodel:SettingsViewModel x:Name="settingsViewModel"/>
+        <viewmodel:SettingsViewModel x:Name="settingsViewModel" />
     </ContentPage.BindingContext>
     <Grid RowSpacing="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="40" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" ColumnSpacing="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
-            <Entry x:Name="placeSearchEntry" Grid.Column="0" Placeholder="Type place here" Completed="OnPlaceSearchEntryCompleted" HorizontalTextAlignment="Center"/>
-            <Button x:Name="placeSearchButton" Grid.Column="1" Text="Search" Clicked="OnPlaceSearchEntryCompleted"/>
+            <Entry x:Name="placeSearchEntry" Grid.Column="0" Placeholder="Type place here" Completed="OnPlaceSearchEntryCompleted" HorizontalTextAlignment="Center" />
+            <Button x:Name="placeSearchButton" Grid.Column="1" Text="Search" Clicked="OnPlaceSearchEntryCompleted" />
         </Grid>
-        <maps:Map Grid.Row="1" x:Name="map" IsShowingUser="False" IsTrafficEnabled="False" IsZoomEnabled="False" />
+        <maps:MapControl Grid.Row="1" x:Name="map" />
         <toolkit:Expander Grid.Row="1" HorizontalOptions="End" VerticalOptions="End" Margin="30" Direction="Up">
             <toolkit:Expander.Header>
                 <ImageButton BackgroundColor="{StaticResource Primary}" CornerRadius="28" HorizontalOptions="End" VerticalOptions="End" MinimumHeightRequest="55" MinimumWidthRequest="55" Clicked="OnPlusButtonClicked">
