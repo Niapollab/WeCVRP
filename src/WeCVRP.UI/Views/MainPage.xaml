@@ -3,7 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:WeCVRP.UI.ViewModels"
              x:Class="WeCVRP.UI.Views.MainPage">
+    <ContentPage.BindingContext>
+        <viewmodel:SettingsViewModel x:Name="settingsViewModel"/>
+    </ContentPage.BindingContext>
     <Grid RowSpacing="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>

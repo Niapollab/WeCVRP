@@ -19,10 +19,10 @@ public partial class MainPage : ContentPage
         => await map.TryToMoveToLocationAsync(placeSearchEntry.Text, Constants.MapScale);
 
     private void OnPlusButtonClicked(object sender, EventArgs e)
-    {
-        var searchOptionDialog = new SettingsPage();
-        searchOptionDialog.Show(Window);
-    }
+        => new SettingsPage
+        {
+            BindingContext = settingsViewModel
+        }.Show(Window);
 
     private void ForceEnableZoomGestures()
         => map.PropertyChanged += (s, e) =>
