@@ -3,7 +3,10 @@
 public partial class MainPage : ContentPage
 {
     public MainPage()
-        => InitializeComponent();
+    {
+        InitializeComponent();
+        mapView.MyLocationLayer.Enabled = false;
+    }
 
     protected async override void OnAppearing()
     {

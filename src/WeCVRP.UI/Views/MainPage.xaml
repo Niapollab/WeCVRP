@@ -82,7 +82,7 @@
             </Grid>
 
             <!-- Map -->
-            <maps:MapView Grid.Row="1" IsZoomButtonVisible="False" IsMyLocationButtonVisible="False" IsNorthingButtonVisible="False" Map="{Binding Map}" />
+            <maps:MapView x:Name="mapView" Grid.Row="1" IsZoomButtonVisible="False" IsMyLocationButtonVisible="False" IsNorthingButtonVisible="False" Map="{Binding Map}" />
         </Grid>
     </Grid>
 </ContentPage>
