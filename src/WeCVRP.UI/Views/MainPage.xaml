@@ -1,36 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:WeCVRP.UI.ViewModels"
+             xmlns:converters="clr-namespace:WeCVRP.UI.Converters"
              xmlns:maps="clr-namespace:Mapsui.UI.Maui;assembly=Mapsui.UI.Maui"
              x:Class="WeCVRP.UI.Views.MainPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:AlgorithmNameConverter x:Key="AlgorithmNameConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.BindingContext>
-        <viewmodel:SettingsViewModel x:Name="settingsViewModel" />
+        <viewmodel:MainPageViewModel x:Name="mainPageViewModel" />
     </ContentPage.BindingContext>
-    <Grid RowSpacing="5">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" ColumnSpacing="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <Entry x:Name="placeSearchEntry" Grid.Column="0" Placeholder="Type place here" Completed="OnPlaceSearchEntryCompleted" HorizontalTextAlignment="Center" />
-            <Button x:Name="placeSearchButton" Grid.Column="1" Text="Search" Clicked="OnPlaceSearchEntryCompleted" />
-        </Grid>
-        <maps:MapControl Grid.Row="1" x:Name="map" />
-        <toolkit:Expander Grid.Row="1" HorizontalOptions="End" VerticalOptions="End" Margin="30" Direction="Up">
-            <toolkit:Expander.Header>
-                <ImageButton BackgroundColor="{StaticResource Primary}" CornerRadius="28" HorizontalOptions="End" VerticalOptions="End" MinimumHeightRequest="55" MinimumWidthRequest="55" Clicked="OnPlusButtonClicked">
-                    <ImageButton.Source>
-                        <FontImageSource FontFamily="FASolid" Glyph="&#x2b;" />
-                    </ImageButton.Source>
-                </ImageButton>
-            </toolkit:Expander.Header>
-        </toolkit:Expander>
-    </Grid>
 
+    <!-- MenuBar -->
+    <ContentPage.MenuBarItems>
+        <!-- File entry -->
+        <MenuBarItem Text="File">
+            <MenuFlyoutItem Text="Open" Command="{Binding OpenFileCommand}" />
+            <MenuFlyoutItem Text="Save" Command="{Binding SaveFileCommand}" />
+            <MenuFlyoutItem Text="Save As" Command="{Binding SaveAsFileCommand}" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="About" Command="{Binding OpenAboutCommand}"/>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem Text="Exit" Command="{Binding ExitCommand}"/>
+        </MenuBarItem>
+        
+        <!-- Settings entry -->
+        <MenuBarItem Text="Settings">
+            <!-- Algorithm entry -->
+            <MenuFlyoutSubItem Text="Algorithm">
+                <MenuFlyoutItem Text="Clarke-Wright" Command="{Binding AlgorithmClickedCommand}" CommandParameter="ClarkeWright" />
+            </MenuFlyoutSubItem>
+
+            <!-- Direction entry -->
+            <MenuFlyoutSubItem Text="Direction">
+                <MenuFlyoutItem Text="Relative" Command="{Binding DirectionClickedCommand}" CommandParameter="Relative" />
+                <MenuFlyoutItem Text="Direct" Command="{Binding DirectionClickedCommand}" CommandParameter="Direct" />
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <!-- Frame -->
+    <Grid ColumnSpacing="5" ColumnDefinitions="*,4*" Padding="10">
+        <!-- Settings & Calculate button -->
+        <Grid Grid.Column="0" RowSpacing="5" RowDefinitions="30, 30, 30, 30, *">
+            <!-- Settings label -->
+            <Label Grid.Row="0" Text="Options" FontSize="Medium" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+
+            <!-- Algorithm option -->
+            <HorizontalStackLayout Grid.Row="1" Spacing="5">
+                <Label Text="Algorithm:" />
+                <Label Text="{Binding Algorithm, Converter={StaticResource AlgorithmNameConverter}}" />
+            </HorizontalStackLayout>
+
+            <!-- Direction option -->
+            <HorizontalStackLayout Grid.Row="2" Spacing="5">
+                <Label Text="Direction:" />
+                <Label Text="{Binding Direction}" />
+            </HorizontalStackLayout>
+
+            <!-- Points option -->
+            <HorizontalStackLayout Grid.Row="3" Spacing="5">
+                <Label Text="Points:" />
+                <Label Text="{Binding PointsCount}" />
+            </HorizontalStackLayout>
+
+            <!-- Calculate button -->
+            <Button Grid.Row="4" Text="Calculate" VerticalOptions="End" />
+        </Grid>
+
+        <!-- Search & Map -->
+        <Grid Grid.Column="1" RowSpacing="5" RowDefinitions="35,*">
+            <!-- Search -->
+            <Grid Grid.Row="0" ColumnSpacing="5" ColumnDefinitions="8*,*">
+                <Entry Grid.Column="0" Placeholder="Type place here" Text="{Binding PlaceName}" ReturnCommand="{Binding SearchCommand}" HorizontalTextAlignment="Center" />
+                <Button Grid.Column="1" Text="Search" Command="{Binding SearchCommand}" />
+            </Grid>
+
+            <!-- Map -->
+            <maps:MapView Grid.Row="1" IsZoomButtonVisible="False" IsMyLocationButtonVisible="False" IsNorthingButtonVisible="False" Map="{Binding Map}" />
+        </Grid>
+    </Grid>
 </ContentPage>

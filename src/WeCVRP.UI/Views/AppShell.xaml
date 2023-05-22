@@ -6,9 +6,12 @@
     xmlns:local="clr-namespace:WeCVRP.UI.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="WeCVRP"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <Shell.TitleView>
+        <Grid Padding="0,0,10,0">
+            <Label FontSize="Title" Text="WeCVRP" HorizontalTextAlignment="End" VerticalTextAlignment="Center" />
+        </Grid>
+    </Shell.TitleView>
+
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" />
 
 </Shell>
