@@ -6,5 +6,8 @@ public partial class MainPage : ContentPage
         => InitializeComponent();
 
     protected async override void OnAppearing()
-        => await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+    {
+        await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+        await mainPageViewModel.TryToMoveToUserLocationAsync();
+    }
 }
