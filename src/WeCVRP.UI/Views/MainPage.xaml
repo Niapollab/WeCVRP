@@ -8,6 +8,7 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:AlgorithmNameConverter x:Key="AlgorithmNameConverter" />
+            <converters:SearchButtonConverter x:Key="SearchButtonConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -76,8 +77,8 @@
         <Grid Grid.Column="1" RowSpacing="5" RowDefinitions="35,*">
             <!-- Search -->
             <Grid Grid.Row="0" ColumnSpacing="5" ColumnDefinitions="8*,*">
-                <Entry Grid.Column="0" Placeholder="Type place here" Text="{Binding PlaceName}" ReturnCommand="{Binding SearchCommand}" HorizontalTextAlignment="Center" />
-                <Button Grid.Column="1" Text="Search" Command="{Binding SearchCommand}" />
+                <Entry Grid.Column="0" Placeholder="Type place here" Text="{Binding PlaceName}" ReturnCommand="{Binding SearchCommand}" HorizontalTextAlignment="Center" TextChanged="OnSearchTextChanged" />
+                <Button Grid.Column="1" Text="{Binding HasFoundLocations, Converter={StaticResource SearchButtonConverter}}" Command="{Binding SearchCommand}" />
             </Grid>
 
             <!-- Map -->

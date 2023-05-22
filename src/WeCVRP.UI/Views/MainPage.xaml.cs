@@ -10,4 +10,7 @@ public partial class MainPage : ContentPage
         await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
         await mainPageViewModel.TryToMoveToUserLocationAsync();
     }
+
+    private void OnSearchTextChanged(object? sender, EventArgs eventArgs)
+        => mainPageViewModel.DropLocations();
 }

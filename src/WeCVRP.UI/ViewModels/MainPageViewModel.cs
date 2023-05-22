@@ -4,6 +4,7 @@ using WeCVRP.UI.Models;
 using WeCVRP.UI.Extensions;
 using Map = Mapsui.Map;
 using Mapsui;
+using WeCVRP.UI.Controllers;
 
 namespace WeCVRP.UI.ViewModels;
 
@@ -22,12 +23,20 @@ public partial class MainPageViewModel : ObservableObject
     private string? _placeName;
 
     [ObservableProperty]
-    private Map _map = new();
+    private Map _map;
+
+    [ObservableProperty]
+    public bool _hasFoundLocations;
 
     private Location _homeLocation;
 
+    private readonly SearchLocationController _searchLocationController;
+
     public MainPageViewModel()
     {
+        _searchLocationController = new SearchLocationController();
+        _map = new Map();
+
         // Location shown on map by default (if location service is not available)
         _homeLocation = new Location(20.798363, -156.331924);
 
@@ -67,8 +76,33 @@ public partial class MainPageViewModel : ObservableObject
     [RelayCommand]
     private async Task SearchAsync()
     {
-        if (!string.IsNullOrEmpty(PlaceName))
-            await TryToMoveToLocationAsync(PlaceName);
+        if (string.IsNullOrEmpty(PlaceName))
+        {
+            HasFoundLocations = false;
+            return;
+        }
+
+        Location? location = _searchLocationController.GetNextLocation();
+
+        if (location is null)
+        {
+            await _searchLocationController.TryUpdateAsync(PlaceName);
+            location = _searchLocationController.GetNextLocation();
+
+            HasFoundLocations = location is not null;
+
+            if (location is null)
+                return;
+        }
+
+        Navigator navigator = Map.Navigator;
+        navigator.CenterOnAndZoomTo(location.ToMPoint(), Map.Navigator.Resolutions[16]);
+    }
+
+    public void DropLocations()
+    {
+        HasFoundLocations = false;
+        _searchLocationController.Clear();
     }
 
     public async ValueTask<bool> TryToMoveToUserLocationAsync(double? resolution = null, CancellationToken cancellationToken = default)
@@ -81,32 +115,6 @@ public partial class MainPageViewModel : ObservableObject
 
             if (location == null)
                 return false;
-
-            Navigator navigator = Map.Navigator;
-            navigator.CenterOnAndZoomTo(location.ToMPoint(), resolution.Value);
-
-            _homeLocation = location;
-
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    public async ValueTask<bool> TryToMoveToLocationAsync(string locationName, double? resolution = null, CancellationToken cancellationToken = default)
-    {
-        resolution ??= Map.Navigator.Resolutions[16];
-        try
-        {
-            IEnumerable<Location> locations = await Geocoding.Default.GetLocationsAsync(locationName);
-            Location? location = locations.FirstOrDefault();
-
-            if (location == null)
-                return false;
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             Navigator navigator = Map.Navigator;
             navigator.CenterOnAndZoomTo(location.ToMPoint(), resolution.Value);
