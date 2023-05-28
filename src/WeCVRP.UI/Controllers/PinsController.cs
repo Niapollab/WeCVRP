@@ -36,13 +36,13 @@ public class PinsController : IDisposable
         _depotGetter = depotGetter;
 
         MapView = mapView;
-        MapView.TouchMove += HandleTouchMove;
-        MapView.TouchEnded += HandleTouchEnded;
+        MapView.TouchMove += OnTouchMove;
+        MapView.TouchEnded += OnTouchEnded;
 
         _mouseController = new MapExtendedTapController(MapView, deltaMultiTap, deltaLongTap, deltaTapRadius);
-        _mouseController.SingleTap += HandleSingleTap;
-        _mouseController.LongTap += HandleLongTap;
-        _mouseController.DoubleTap += HandleDoubleTap;
+        _mouseController.SingleTap += OnSingleTap;
+        _mouseController.LongTap += OnLongTap;
+        _mouseController.DoubleTap += OnDoubleTap;
     }
 
     public void Dispose()
@@ -58,18 +58,18 @@ public class PinsController : IDisposable
 
         if (disposing)
         {
-            MapView.TouchMove -= HandleTouchMove;
-            MapView.TouchEnded -= HandleTouchEnded;
+            MapView.TouchMove -= OnTouchMove;
+            MapView.TouchEnded -= OnTouchEnded;
 
-            _mouseController.LongTap -= HandleLongTap;
-            _mouseController.DoubleTap -= HandleDoubleTap;
-            _mouseController.SingleTap -= HandleSingleTap;
+            _mouseController.LongTap -= OnLongTap;
+            _mouseController.DoubleTap -= OnDoubleTap;
+            _mouseController.SingleTap -= OnSingleTap;
         }
 
         _disposedValue = true;
     }
 
-    private void HandleSingleTap(object? sender, TapEventArgs eventArgs)
+    private void OnSingleTap(object? sender, TapEventArgs eventArgs)
     {
         IFeature? feature = eventArgs.MapInfo?.Feature;
 
@@ -84,7 +84,7 @@ public class PinsController : IDisposable
         PinDepotChanged?.Invoke(this, new PinDepotChangedEventArgs(_depotGetter(), pin));
     }
 
-    private void HandleTouchMove(object? sender, TouchedEventArgs eventArgs)
+    private void OnTouchMove(object? sender, TouchedEventArgs eventArgs)
     {
         Position? position = MapView
             .GetMapInfo(eventArgs.ScreenPoints[0])
@@ -98,7 +98,7 @@ public class PinsController : IDisposable
         PinMove(this, new PinMoveEventArgs(_draggedPin, position.Value));
     }
 
-    private void HandleTouchEnded(object? sender, TouchedEventArgs eventArgs)
+    private void OnTouchEnded(object? sender, TouchedEventArgs eventArgs)
     {
         Pin? pin = _draggedPin;
         _draggedPin = null;
@@ -109,7 +109,7 @@ public class PinsController : IDisposable
         PinMoveEnded(this, new PinMoveEventArgs(pin, pin.Position));
     }
 
-    private void HandleLongTap(object? sender, TapEventArgs eventArgs)
+    private void OnLongTap(object? sender, TapEventArgs eventArgs)
     {
         if (_draggedPin is not null)
             return;
@@ -128,7 +128,7 @@ public class PinsController : IDisposable
         PinMoveStarted?.Invoke(this, new PinMoveEventArgs(pin, pin.Position));
     }
 
-    private void HandleDoubleTap(object? sender, TapEventArgs eventArgs)
+    private void OnDoubleTap(object? sender, TapEventArgs eventArgs)
     {
         Position? position = eventArgs.MapInfo?.WorldPosition?.ToNative();
 

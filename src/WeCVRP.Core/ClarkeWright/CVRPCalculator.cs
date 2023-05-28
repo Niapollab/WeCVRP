@@ -16,18 +16,18 @@ public class CVRPCalculator : ICVRPCalculator
     {
         int size = request.AdjacencyMatrix.GetLength(0);
         int depot = request.Depot;
-        List<RouteInfo> routeInfos = BuildInitialRoutes(size, depot, request.ClientDemands);
+        List<RouteInfo> routeInfo = BuildInitialRoutes(size, depot, request.ClientDemands);
         double[,] savingsMatrix = CalculateSavingsMatrix(request.AdjacencyMatrix, request.Depot);
         IEnumerable<(int RowIndex, int ColumnIndex)> orderedSavingsIndexes = SortMatrixByAscending(savingsMatrix);
 
         foreach ((int i, int j) in orderedSavingsIndexes)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            if (routeInfos.Any(ri => ri.Route.Contains(i) && ri.Route.Contains(j)))
+            if (routeInfo.Any(ri => ri.Route.Contains(i) && ri.Route.Contains(j)))
                 continue;
 
             cancellationToken.ThrowIfCancellationRequested();
-            IReadOnlyList<int> routesForMergeIndexes = routeInfos
+            IReadOnlyList<int> routesForMergeIndexes = routeInfo
                 .Select((ri, i) => (r: ri.Route, i))
                 .Where(p => (p.r[1] == i && p.r[^2] == j) || (p.r[^2] == i || p.r[1] == j))
                 .Select(p => p.i)
@@ -37,30 +37,30 @@ public class CVRPCalculator : ICVRPCalculator
                 continue;
 
             cancellationToken.ThrowIfCancellationRequested();
-            (int FirstIndex, int SecondIndex)? pair = FindTwoSuitableRoutesIndexes(routeInfos, routesForMergeIndexes, request.TransportCapacity);
+            (int FirstIndex, int SecondIndex)? pair = FindTwoSuitableRoutesIndexes(routeInfo, routesForMergeIndexes, request.TransportCapacity);
 
             if (pair is null)
                 continue;
 
             // i must be last point (before depot) of first route
             // If it is not truth - swap indexes
-            if (i != routeInfos[pair.Value.FirstIndex].Route[^2])
+            if (i != routeInfo[pair.Value.FirstIndex].Route[^2])
                 pair = (pair.Value.SecondIndex, pair.Value.FirstIndex);
 
             cancellationToken.ThrowIfCancellationRequested();
-            MergeRoutes(routeInfos, pair.Value.FirstIndex, pair.Value.SecondIndex);
+            MergeRoutes(routeInfo, pair.Value.FirstIndex, pair.Value.SecondIndex);
         }
 
-        IReadOnlyList<IReadOnlyList<int>> finalRoutes = routeInfos
+        IReadOnlyList<IReadOnlyList<int>> finalRoutes = routeInfo
             .Select(ri => ri.Route)
             .ToArray();
         return ValueTask.FromResult(new CVRPCalculationResponse(finalRoutes));
     }
 
-    protected void MergeRoutes(List<RouteInfo> routeInfos, int firstIndex, int secondIndex)
+    protected void MergeRoutes(List<RouteInfo> routeInfo, int firstIndex, int secondIndex)
     {
-        RouteInfo first = routeInfos[firstIndex];
-        RouteInfo second = routeInfos[secondIndex];
+        RouteInfo first = routeInfo[firstIndex];
+        RouteInfo second = routeInfo[secondIndex];
 
         List<int> result = first
             .Route
@@ -68,10 +68,10 @@ public class CVRPCalculator : ICVRPCalculator
             .Concat(second.Route.Skip(1))
             .ToList();
 
-        routeInfos.RemoveAt(Math.Max(firstIndex, secondIndex));
-        routeInfos.RemoveAt(Math.Min(firstIndex, secondIndex));
+        routeInfo.RemoveAt(Math.Max(firstIndex, secondIndex));
+        routeInfo.RemoveAt(Math.Min(firstIndex, secondIndex));
 
-        routeInfos.Add(new RouteInfo
+        routeInfo.Add(new RouteInfo
         {
             Route = result,
             TotalDemand = first.TotalDemand + second.TotalDemand

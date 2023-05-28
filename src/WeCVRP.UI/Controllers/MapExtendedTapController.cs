@@ -34,9 +34,9 @@ public class MapExtendedTapController : IDisposable
     public MapExtendedTapController(MapControl mapControl, TimeSpan deltaMultiTap, TimeSpan deltaLongTap, double deltaTapRadius)
     {
         MapControl = mapControl;
-        MapControl.TouchStarted += HandleTouchStarted;
-        MapControl.TouchMove += HandleTouchEnded;
-        MapControl.TouchEnded += HandleTouchEnded;
+        MapControl.TouchStarted += OnTouchStarted;
+        MapControl.TouchMove += OnTouchEnded;
+        MapControl.TouchEnded += OnTouchEnded;
 
         _deltaMultiTap = deltaMultiTap;
         _deltaLongTap = deltaLongTap;
@@ -62,9 +62,9 @@ public class MapExtendedTapController : IDisposable
 
         if (disposing)
         {
-            MapControl.TouchStarted -= HandleTouchStarted;
-            MapControl.TouchMove -= HandleTouchEnded;
-            MapControl.TouchEnded -= HandleTouchEnded;
+            MapControl.TouchStarted -= OnTouchStarted;
+            MapControl.TouchMove -= OnTouchEnded;
+            MapControl.TouchEnded -= OnTouchEnded;
 
             _longTapTimer.Dispose();
             _singleTapTimer.Dispose();
@@ -73,7 +73,7 @@ public class MapExtendedTapController : IDisposable
         _disposedValue = true;
     }
 
-    private void HandleTouchStarted(object? sender, TouchedEventArgs eventArgs)
+    private void OnTouchStarted(object? sender, TouchedEventArgs eventArgs)
     {
         _longTapTimer.Change(_deltaLongTap, Timeout.InfiniteTimeSpan);
         _singleTapTimer.Change(_deltaMultiTap, Timeout.InfiniteTimeSpan);
@@ -92,7 +92,7 @@ public class MapExtendedTapController : IDisposable
         _lastTapTime = newTapTime;
     }
 
-    private void HandleTouchEnded(object? sender, TouchedEventArgs eventArgs)
+    private void OnTouchEnded(object? sender, TouchedEventArgs eventArgs)
         => _longTapTimer.Change(Timeout.Infinite, Timeout.Infinite);
 
     private TapEventArgs BuildEventArgs(MPoint position)
