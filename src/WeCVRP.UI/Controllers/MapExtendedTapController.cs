@@ -72,7 +72,7 @@ public class MapExtendedTapController : IDisposable
         _longTapTimer.Change(_deltaLongTap, Timeout.InfiniteTimeSpan);
 
         DateTime newTapTime = DateTime.Now;
-        MPoint newTapPosition = eventArgs.ScreenPoints[0];
+        MPoint newTapPosition = eventArgs.ScreenPoints[^1];
 
         if (_lastTapPosition?.Distance(newTapPosition) < _deltaTapRadiusSquare
             && newTapTime - _lastTapTime <= _deltaMultiTap)
