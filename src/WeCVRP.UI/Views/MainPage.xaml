@@ -9,6 +9,10 @@
         <ResourceDictionary>
             <converters:AlgorithmNameConverter x:Key="AlgorithmNameConverter" />
             <converters:SearchButtonConverter x:Key="SearchButtonConverter" />
+            <Color x:Key="pinClientColor">#141414</Color>
+            <Color x:Key="pinDepotColor">#FF1414</Color>
+            <Color x:Key="pinClientMoveColor">#545454</Color>
+            <Color x:Key="pinDepotMoveColor">#FF5454</Color>
         </ResourceDictionary>
     </ContentPage.Resources>
 
