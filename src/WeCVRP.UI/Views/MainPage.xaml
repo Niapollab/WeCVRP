@@ -11,7 +11,7 @@
             <converters:SearchButtonConverter x:Key="SearchButtonConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.BindingContext>
         <viewmodel:MainPageViewModel x:Name="mainPageViewModel" />
     </ContentPage.BindingContext>
@@ -20,15 +20,15 @@
     <ContentPage.MenuBarItems>
         <!-- File entry -->
         <MenuBarItem Text="File">
-            <MenuFlyoutItem Text="Open" Command="{Binding OpenFileCommand}" />
-            <MenuFlyoutItem Text="Save" Command="{Binding SaveFileCommand}" />
-            <MenuFlyoutItem Text="Save As" Command="{Binding SaveAsFileCommand}" />
+            <MenuFlyoutItem Text="Open" Clicked="OnOpenFileClicked" />
+            <MenuFlyoutItem Text="Save" Clicked="OnSaveFileClicked" />
+            <MenuFlyoutItem Text="Save As" Clicked="OnSaveAsFileClicked" />
             <MenuFlyoutSeparator />
-            <MenuFlyoutItem Text="About" Command="{Binding OpenAboutCommand}"/>
+            <MenuFlyoutItem Text="About" Clicked="OnOpenAboutClicked" />
             <MenuFlyoutSeparator />
-            <MenuFlyoutItem Text="Exit" Command="{Binding ExitCommand}"/>
+            <MenuFlyoutItem Text="Exit" Clicked="OnExitClicked"/>
         </MenuBarItem>
-        
+
         <!-- Settings entry -->
         <MenuBarItem Text="Settings">
             <!-- Algorithm entry -->
@@ -77,12 +77,12 @@
         <Grid Grid.Column="1" RowSpacing="5" RowDefinitions="35,*">
             <!-- Search -->
             <Grid Grid.Row="0" ColumnSpacing="5" ColumnDefinitions="8*,*">
-                <Entry Grid.Column="0" Placeholder="Type place here" Text="{Binding PlaceName}" ReturnCommand="{Binding SearchCommand}" HorizontalTextAlignment="Center" TextChanged="OnSearchTextChanged" />
-                <Button Grid.Column="1" Text="{Binding HasFoundLocations, Converter={StaticResource SearchButtonConverter}}" Command="{Binding SearchCommand}" />
+                <Entry Grid.Column="0" Placeholder="Type place here" Text="{Binding PlaceName}" HorizontalTextAlignment="Center" TextChanged="OnSearchTextChanged" Completed="OnSearch" />
+                <Button Grid.Column="1" Text="{Binding HasFoundLocations, Converter={StaticResource SearchButtonConverter}}" />
             </Grid>
 
             <!-- Map -->
-            <maps:MapView x:Name="mapView" Grid.Row="1" IsZoomButtonVisible="False" IsMyLocationButtonVisible="False" IsNorthingButtonVisible="False" Map="{Binding Map}" />
+            <maps:MapView x:Name="mapView" Grid.Row="1" IsZoomButtonVisible="False" IsMyLocationButtonVisible="False" IsNorthingButtonVisible="False" />
         </Grid>
     </Grid>
 </ContentPage>
