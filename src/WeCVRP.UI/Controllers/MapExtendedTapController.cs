@@ -13,6 +13,8 @@ public class MapExtendedTapController : IDisposable
 
     private readonly Timer _longTapTimer;
 
+    private readonly Timer _singleTapTimer;
+
     private readonly double _deltaTapRadiusSquare;
 
     private DateTime? _lastTapTime;
@@ -22,6 +24,8 @@ public class MapExtendedTapController : IDisposable
     private bool _disposedValue;
 
     public MapControl MapControl { get; }
+
+    public event EventHandler<TapEventArgs>? SingleTap;
 
     public event EventHandler<TapEventArgs>? DoubleTap;
 
@@ -39,6 +43,7 @@ public class MapExtendedTapController : IDisposable
         _deltaTapRadiusSquare = deltaTapRadius * deltaTapRadius;
 
         _longTapTimer = new Timer(_ => LongTap?.Invoke(this, BuildEventArgs(_lastTapPosition!)));
+        _singleTapTimer = new Timer(_ => SingleTap?.Invoke(this, BuildEventArgs(_lastTapPosition!)));
 
         _lastTapTime = null;
         _lastTapPosition = null;
@@ -62,6 +67,7 @@ public class MapExtendedTapController : IDisposable
             MapControl.TouchEnded -= HandleTouchEnded;
 
             _longTapTimer.Dispose();
+            _singleTapTimer.Dispose();
         }
 
         _disposedValue = true;
@@ -70,13 +76,17 @@ public class MapExtendedTapController : IDisposable
     private void HandleTouchStarted(object? sender, TouchedEventArgs eventArgs)
     {
         _longTapTimer.Change(_deltaLongTap, Timeout.InfiniteTimeSpan);
+        _singleTapTimer.Change(_deltaMultiTap, Timeout.InfiniteTimeSpan);
 
         DateTime newTapTime = DateTime.Now;
         MPoint newTapPosition = eventArgs.ScreenPoints[^1];
 
         if (_lastTapPosition?.Distance(newTapPosition) < _deltaTapRadiusSquare
             && newTapTime - _lastTapTime <= _deltaMultiTap)
+        {
+            _singleTapTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
             DoubleTap?.Invoke(this, BuildEventArgs(newTapPosition));
+        }
 
         _lastTapPosition = newTapPosition;
         _lastTapTime = newTapTime;

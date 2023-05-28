@@ -6,11 +6,6 @@ public class PinRemoveEventArgs : EventArgs
 {
     public Pin Pin { get; }
 
-    public bool IsDepot { get; }
-
-    public PinRemoveEventArgs(Pin pin, bool isDepot)
-    {
-        Pin = pin;
-        IsDepot = isDepot;
-    }
+    public PinRemoveEventArgs(Pin pin)
+        => Pin = pin;
 }

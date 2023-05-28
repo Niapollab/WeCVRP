@@ -6,11 +6,6 @@ public class PinAddEventArgs : EventArgs
 {
     public Position Position { get; }
 
-    public bool IsDepot { get; }
-
-    public PinAddEventArgs(Position position, bool isDepot)
-    {
-        Position = position;
-        IsDepot = isDepot;
-    }
+    public PinAddEventArgs(Position position)
+        => Position = position;
 }

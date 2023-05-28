@@ -9,6 +9,8 @@ namespace WeCVRP.UI.Controllers;
 
 public class PinsController : IDisposable
 {
+    private readonly Func<Pin?> _depotGetter;
+
     private readonly MapExtendedTapController _mouseController;
 
     private bool _disposedValue;
@@ -19,6 +21,8 @@ public class PinsController : IDisposable
 
     public event EventHandler<PinRemoveEventArgs>? PinRemove;
 
+    public event EventHandler<PinDepotChangedEventArgs>? PinDepotChanged;
+
     public event EventHandler<PinMoveEventArgs>? PinMoveStarted;
 
     public event EventHandler<PinMoveEventArgs>? PinMove;
@@ -27,15 +31,57 @@ public class PinsController : IDisposable
 
     public MapView MapView { get; }
 
-    public PinsController(MapView mapView, TimeSpan deltaMultiTap, TimeSpan deltaLongTap, double deltaTapRadius)
+    public PinsController(MapView mapView, Func<Pin?> depotGetter, TimeSpan deltaMultiTap, TimeSpan deltaLongTap, double deltaTapRadius)
     {
+        _depotGetter = depotGetter;
+
         MapView = mapView;
         MapView.TouchMove += HandleTouchMove;
         MapView.TouchEnded += HandleTouchEnded;
 
         _mouseController = new MapExtendedTapController(MapView, deltaMultiTap, deltaLongTap, deltaTapRadius);
+        _mouseController.SingleTap += HandleSingleTap;
         _mouseController.LongTap += HandleLongTap;
         _mouseController.DoubleTap += HandleDoubleTap;
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposedValue)
+            return;
+
+        if (disposing)
+        {
+            MapView.TouchMove -= HandleTouchMove;
+            MapView.TouchEnded -= HandleTouchEnded;
+
+            _mouseController.LongTap -= HandleLongTap;
+            _mouseController.DoubleTap -= HandleDoubleTap;
+            _mouseController.SingleTap -= HandleSingleTap;
+        }
+
+        _disposedValue = true;
+    }
+
+    private void HandleSingleTap(object? sender, TapEventArgs eventArgs)
+    {
+        IFeature? feature = eventArgs.MapInfo?.Feature;
+
+        if (feature is null)
+            return;
+
+        Pin? pin = MapView.Pins.FindByFeature(feature);
+
+        if (pin is null || pin == _depotGetter())
+            return;
+
+        PinDepotChanged?.Invoke(this, new PinDepotChangedEventArgs(_depotGetter(), pin));
     }
 
     private void HandleTouchMove(object? sender, TouchedEventArgs eventArgs)
@@ -95,31 +141,9 @@ public class PinsController : IDisposable
             Pin? pin = MapView.Pins.FindByFeature(feature);
 
             if (pin is not null)
-                PinRemove?.Invoke(this, new PinRemoveEventArgs(pin, MapView.Pins.Count == 1));
+                PinRemove?.Invoke(this, new PinRemoveEventArgs(pin));
         }
         else
-            PinAdd?.Invoke(this, new PinAddEventArgs(position.Value, MapView.Pins.Count == 0));
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposedValue)
-            return;
-
-        if (disposing)
-        {
-            MapView.TouchMove -= HandleTouchMove;
-            MapView.TouchEnded -= HandleTouchEnded;
-            _mouseController.LongTap -= HandleLongTap;
-            _mouseController.DoubleTap -= HandleDoubleTap;
-        }
-
-        _disposedValue = true;
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
+            PinAdd?.Invoke(this, new PinAddEventArgs(position.Value));
     }
 }
