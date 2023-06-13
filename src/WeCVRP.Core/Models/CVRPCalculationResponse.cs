@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace WeCVRP.Core.Models;
 
 public class CVRPCalculationResponse
 {
+    [JsonPropertyName("routes")]
     public IReadOnlyList<IReadOnlyList<int>> Routes { get; }
 
     public CVRPCalculationResponse(IReadOnlyList<IReadOnlyList<int>> routes)
