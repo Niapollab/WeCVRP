@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\WeCVRP.Core\WeCVRP.Core.csproj" />
+    <ProjectReference Include="..\WeCVRP.Algorithms\WeCVRP.Algorithms.csproj" />
   </ItemGroup>
 
 </Project>

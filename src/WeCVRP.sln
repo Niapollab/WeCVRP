@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeCVRP.Core", "WeCVRP.Core\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeCVRP.Tests", "WeCVRP.Tests\WeCVRP.Tests.csproj", "{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeCVRP.Service", "WeCVRP.Service\WeCVRP.Service.csproj", "{C5EDE9A0-04C7-43BA-81AD-CB6CF3A6742C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeCVRP.Algorithms", "WeCVRP.Algorithms\WeCVRP.Algorithms.csproj", "{F06C5C99-666E-4EDC-816E-641A114E20C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FF622C4-95BF-46A8-84A0-B4A099BFBF22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5EDE9A0-04C7-43BA-81AD-CB6CF3A6742C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5EDE9A0-04C7-43BA-81AD-CB6CF3A6742C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5EDE9A0-04C7-43BA-81AD-CB6CF3A6742C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5EDE9A0-04C7-43BA-81AD-CB6CF3A6742C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F06C5C99-666E-4EDC-816E-641A114E20C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F06C5C99-666E-4EDC-816E-641A114E20C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F06C5C99-666E-4EDC-816E-641A114E20C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F06C5C99-666E-4EDC-816E-641A114E20C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

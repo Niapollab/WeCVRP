@@ -1,7 +1,8 @@
-﻿using WeCVRP.Core.Extensions;
+﻿using WeCVRP.Core;
+using WeCVRP.Core.Extensions;
 using WeCVRP.Core.Models;
 
-namespace WeCVRP.Core.ClarkeWright;
+namespace WeCVRP.Algorithms.ClarkeWright;
 
 public class CVRPCalculator : ICVRPCalculator
 {
